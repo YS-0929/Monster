@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import dictionary.domain.BaseStats;
+import dictionary.domain.Evolution;
 import dictionary.domain.LearnableMove;
 import dictionary.domain.Monster;
 import dictionary.domain.Move;
@@ -127,6 +128,15 @@ public class MonsterUI {
                 System.out.println("  [非レベルアップ] " + lm.getMove().getName());
             } else {
                 System.out.println("  Lv" + lm.getLevel() + " " + lm.getMove().getName());
+            }
+        }
+        
+        List<Evolution> evolutions = service.getEvolutions(m.getId());
+
+        if (!evolutions.isEmpty()) {
+            System.out.println("進化：");
+            for (Evolution evo : evolutions) {
+                System.out.println(" → " + evo.getToId() + " (" + evo.getConditionType() + ":" + evo.getConditionValue() + ")");
             }
         }
     }

@@ -1,5 +1,4 @@
 name,type,category,power,accuracy,criticalRate,priority,statChanges,statusEffect,statusChance
-name,type,category,power,accuracy,criticalRate,priority,statChanges,statusEffect,statusChance
 ラピッドストライク,NORMAL,PHYSICAL,80,100,0.0,1,,NONE,0.0
 パワープレス,NORMAL,PHYSICAL,100,100,0.0,0,,NONE,0.0
 ブレードダンス,NORMAL,STATUS,0,100,0.0,0,ATTACK:2,NONE,0.0

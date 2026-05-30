@@ -2,10 +2,12 @@ package dictionary;
 
 import dictionary.controller.MonsdexUI;
 import dictionary.repository.BaseStatsRepository;
+import dictionary.repository.EvolutionRepository;
 import dictionary.repository.LearnableMoveRepository;
 import dictionary.repository.MonsterRepository;
 import dictionary.repository.MonsterTypeRepository;
 import dictionary.repository.MoveRepository;
+import dictionary.service.EvolutionLoader;
 import dictionary.service.MonsterLoader;
 import dictionary.service.MonsterSaver;
 import dictionary.service.MonsterService;
@@ -35,15 +37,17 @@ public class Main {
 	        MoveLoader moveLoader = new MoveLoader(moveRepo);
 	        MoveSaver moveSaver = new MoveSaver(moveRepo);
 	        MoveService moveService = new MoveService(moveLoader, moveSaver);
-
+	        
 	        // === Monster 図鑑の構築 ===
 	        MonsterRepository monsterRepo = new MonsterRepository();
 	        BaseStatsRepository baseStatsRepo = new BaseStatsRepository();
 	        MonsterTypeRepository monsterTypeRepo = new MonsterTypeRepository();
 	        LearnableMoveRepository learnableMoveRepo = new LearnableMoveRepository();
+	        EvolutionRepository evolutionRepo = new EvolutionRepository();
 	        MonsterLoader monsterLoader = new MonsterLoader(monsterRepo, baseStatsRepo, monsterTypeRepo, learnableMoveRepo, moveLoader);
+	        EvolutionLoader evolutionLoader = new EvolutionLoader(evolutionRepo);
 	        MonsterSaver monsterSaver = new MonsterSaver(monsterRepo, baseStatsRepo, monsterTypeRepo, learnableMoveRepo);
-	        MonsterService monsterService = new MonsterService(monsterLoader, monsterSaver);
+	        MonsterService monsterService = new MonsterService(monsterLoader, monsterSaver, evolutionLoader);
 
 	        // === UI 起動 ===
 	        MonsdexUI ui = new MonsdexUI(monsterService, moveService);

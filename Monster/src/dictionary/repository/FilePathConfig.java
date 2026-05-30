@@ -11,6 +11,9 @@ class FilePathConfig {
     /** モンスタータイプのJSONファイルパス */
     public static final String MONSTER_TYPE_FILE = "data/monster_type.csv";
     
+    /** 進化データのJSONファイルパス */
+    public static final String EVOLUTION_FILE = "data/evolution.csv";
+    
     /** 技データのJSONファイルパス */
     public static final String MOVE_FILE = "data/move.csv";
     

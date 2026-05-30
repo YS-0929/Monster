@@ -2,7 +2,9 @@ package dictionary.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import dictionary.domain.Evolution;
 import dictionary.domain.Monster;
 
 /**
@@ -20,6 +22,9 @@ public class MonsterService {
 
     /** メモリ上にキャッシュされたモンスターデータのリスト */
     private final List<Monster> monsters;
+    
+    /** 進化データのローダー（将来的な進化機能のために保持） */
+    private final Map<Integer, List<Evolution>> evolutionMap;
 
     /**
      * コンストラクタ。
@@ -27,9 +32,11 @@ public class MonsterService {
      *
      * @param loader モンスターデータのローダー
      * @param saver  モンスターデータのセーバー
+     * @param evolutionLoader 進化データのローダー（将来的な進化機能のために保持）
      */
-    public MonsterService(MonsterLoader loader, MonsterSaver saver) {
+    public MonsterService(MonsterLoader loader, MonsterSaver saver, EvolutionLoader evolutionLoader) {
         this.saver = saver;
+        this.evolutionMap = evolutionLoader.loadAsMap();
         this.monsters = new ArrayList<>(loader.loadAll());
     }
     
@@ -40,6 +47,19 @@ public class MonsterService {
      */
     public List<Monster> findAll() {
         return List.copyOf(monsters);
+    }
+    
+    /**
+     * 指定されたモンスターIDを起点とする進化データのリストを取得する。
+     * <p>内部で保持している進化マップ（evolutionMap）を検索し、該当する進化先が存在すればそのリストを返す。
+     * 分岐進化を持つモンスターの場合は複数のデータが含まれる。
+     * 進化先が存在しない（最終進化形など）場合は、NullPointerException を防止するために空の不変リストを返す。</p>
+     *
+     * @param monsterId 進化元のモンスターID
+     * @return 該当するモンスターの進化データのリスト。進化先がない場合は空のリスト（null は返らない）
+     */
+    public List<Evolution> getEvolutions(int monsterId) {
+        return evolutionMap.getOrDefault(monsterId, List.of());
     }
 
     /**
